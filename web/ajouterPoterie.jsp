@@ -24,8 +24,10 @@
         <div class="col-6 ">
              <form action="addPoterie" method="post">
                 <div class="form-group">
-                <label for="exampleInputimage">image</label>
-                <input class="form-control" id="exampleInputimage" type="file" name="image">
+                <label >image</label>
+                <input class="form-control" id="custom-text" type="text" name="image">
+                 <input class="form-control" id="real-file" type="file" hidden="hidden">
+                 <button type="button" id="custom-button">CHOOSE A FILE</button>
                 </div>
                 <div class="form-group">
                 <label for="exampleInputnom">nom</label>
@@ -40,5 +42,6 @@
             </form>
         </div>
         </div>
-    </body>
-</html>
+        </div>
+     <jsp:include page="footer.jsp" />
+

@@ -18,7 +18,9 @@
           <h1 class="mt-3 col-12 d-flex justify-content-center">liste poterie</h1>
          
             <div class=" mt-5 container">
-              <div class="row">   
+                 <p><strong>nombre des poterie :</strong> ${listPoterie.size()}</p>
+              <div class="row"> 
+                 
                    <c:forEach var="poterie" items="${listPoterie}">
                   
                    <form action="vote" method="post">
@@ -36,7 +38,7 @@
 
                          </ul>
                          <div class="card-body">
-                          <input type="submit" class="btn btn-primary" value="j'aime">
+                          <input type="submit" class="btn btn-primary"  value="j'aime">
 
                          </div>
                     </div>
@@ -45,7 +47,7 @@
                     </c:forEach>
               </div>
             </div>
-          
+          <jsp:include page="footer.jsp" />
          
          
          
