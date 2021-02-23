@@ -6,6 +6,7 @@
 package web;
 
 import DAO.daoPoterie;
+import DAO.daoUtilisateur;
 import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,7 +64,7 @@ public class ServletAuthentification extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    daoPoterie daopoterie=new daoPoterie();
+    daoUtilisateur daopoterie=new daoUtilisateur();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -117,40 +118,39 @@ public class ServletAuthentification extends HttpServlet {
      private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
           String email=request.getParameter("email");
           String password=request.getParameter("password");
-          if(email!="" || password!=""){
+           if(email!="" || password!=""){
          List<Utilisateur> listUtilisateur = daopoterie.selectUtilisateur();
          for (int i = 0; i < listUtilisateur.size(); i++){
-             if(listUtilisateur.get(i).getRole().equals("administrateur")){
-                 if(listUtilisateur.get(i).getEmail().equals(email) && listUtilisateur.get(i).getPassword().equals(password)){
-                   HttpSession admin= request.getSession();
-                   admin.setAttribute("role",listUtilisateur.get(i).getRole());
-                   admin.setAttribute("nom",listUtilisateur.get(i).getNom());
-		  response.sendRedirect("home.jsp");
-             }
-             }
-             else if(listUtilisateur.get(i).getRole().equals("client")){
-                 if(listUtilisateur.get(i).getEmail().equals(email) && listUtilisateur.get(i).getPassword().equals(password)){
-                  HttpSession client= request.getSession();
+               if(listUtilisateur.get(i).getRole().equals("client")){
+                   if(listUtilisateur.get(i).getEmail().equals(email) && listUtilisateur.get(i).getPassword().equals(password) ){
+                     HttpSession client= request.getSession();
+                   client.setAttribute("idUser",listUtilisateur.get(i).getIdUtilisateur());
                    client.setAttribute("role",listUtilisateur.get(i).getRole());
                    client.setAttribute("nom",listUtilisateur.get(i).getNom());
-		  response.sendRedirect("home.jsp");
-             }
-                  else{
-              request.setAttribute("error"," champs vide");
-              RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-		dispatcher.forward(request, response);
-          } 
-             }   
-         }
+		   response.sendRedirect("home.jsp");   
+                   }
+                
+               }
+               else if(listUtilisateur.get(i).getRole().equals("administrateur")){
+                   if(listUtilisateur.get(i).getEmail().equals(email) && listUtilisateur.get(i).getPassword().equals(password) ){
+                     HttpSession admin= request.getSession();
+                   admin.setAttribute("idUser",listUtilisateur.get(i).getIdUtilisateur());
+                   admin.setAttribute("role",listUtilisateur.get(i).getRole());
+                   admin.setAttribute("nom",listUtilisateur.get(i).getNom());
+		   response.sendRedirect("home.jsp");   
+                   }        
+               }
+                 
+             }                     
           }
-          else{
-              request.setAttribute("error","erreur de validation");
-              RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+           else{
+               request.setAttribute("error","erreur validation");
+               RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 		dispatcher.forward(request, response);
-          }
+           }
      }
      
-     
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -162,7 +162,7 @@ public class ServletAuthentification extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       this.doGet(request, response);
+           this.doGet(request, response);
     }
 
     /**

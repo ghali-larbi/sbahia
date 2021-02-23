@@ -18,9 +18,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import model.Poterie;
 import model.Utilisateur;
+import model.Vote;
 
 /**
  *
@@ -94,6 +96,7 @@ public static final String UPLOAD_DIR = "image";
                           
                          case "/vote":
 				voter(request, response);
+                                
 				break;
                         }      
 
@@ -131,8 +134,11 @@ public static final String UPLOAD_DIR = "image";
         String nom=request.getParameter("nomPoterie");
         int prix=Integer.parseInt(request.getParameter("prix"));
         int vote=0;
-         Poterie newPoterie=new Poterie(img,nom,prix,vote);
+        int idU=Integer.parseInt(request.getParameter("idUser"));
+        System.out.println(idU);
+         Poterie newPoterie=new Poterie(img,nom,prix,vote,idU,false);
          daopoterie.insertPoterie(newPoterie);
+       
          response.sendRedirect("listePoterie");
 
     }
@@ -171,21 +177,34 @@ public static final String UPLOAD_DIR = "image";
     }
 
     private void listPoterieClient(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                List<Poterie> listPoterie=daopoterie.selectPoterie();
+            
+                List<Poterie> listPoterie=daopoterie.selectVote();
 		request.setAttribute("listPoterie", listPoterie);
+                List<Vote>listVote=daopoterie.selectVote2();
+                request.setAttribute("listVote", listVote);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("listPoterieClient.jsp");
 		dispatcher.forward(request, response);
     }
-
-    private void voter(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+    private void voter(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
                 int id = Integer.parseInt(request.getParameter("id"));
-                int vote =Integer.parseInt(request.getParameter("vote"));
-               vote++;
-		Poterie poterie = new Poterie(id,vote);
-               
-		daopoterie.updateVote(poterie);
+                 int idU = Integer.parseInt(request.getParameter("idUser"));
+                int vote =Integer.parseInt(request.getParameter("vote")); 
+                 System.out.println(id+" "+idU+" "+vote);
+                vote++;
+               Poterie p=new Poterie(id,vote,idU,true);
+               daopoterie.updateVote(p);
+                Vote v =new Vote(id, 1);
+                daopoterie.insertVote(v);
+                 Vote v2 =new Vote(id, idU);
+                 daopoterie.updateUtilisateur(v2);
+                 
 		response.sendRedirect("listePoterieClient");
-        
+		
+
+             
+               
+               
+
         
         
         

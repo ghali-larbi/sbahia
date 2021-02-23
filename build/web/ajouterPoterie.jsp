@@ -23,6 +23,7 @@
         <div class="col-12 d-flex justify-content-center mt-3">   
         <div class="col-6 ">
              <form action="addPoterie" method="post">
+             <input type="hidden" name="idUser" value="<%= session.getAttribute("idUser") %>" />
                 <div class="form-group">
                 <label >image</label>
                 <input class="form-control" id="custom-text" type="text" name="image">

@@ -27,9 +27,19 @@ public class Utilisateur {
 			this.telephone = telephone;
 			this.role = role;
 		}
+
+    public Utilisateur(int id, String nom, String prenom, String email, String password, int telephone, String role) {
+                        this.idUtilisateur=id;
+                        this.nom = nom;
+			this.prenom = prenom;
+			this.email = email;
+			this.password = password;
+			this.telephone = telephone;
+			this.role = role;
+    }
     
     
-    	public int getIdUtilisateur() {
+    	        public int getIdUtilisateur() {
 			return idUtilisateur;
 		}
 		public void setIdUtilisateur(int id) {

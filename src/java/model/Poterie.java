@@ -15,6 +15,16 @@ public class Poterie {
     private String nom;
     private int prix;
     private int vote;
+    private int idUtilisateur;
+    private boolean choix;
+     public Poterie(String image,String nom, int prix, int vote,int id,boolean choix) {
+	        this.image=image;
+		this.nom = nom;
+		this.prix = prix;
+		this.vote = vote;
+                this.idUtilisateur=id;
+                this.choix=choix;
+	}
     public Poterie(String image,String nom, int prix, int vote) {
 	        this.image=image;
 		this.nom = nom;
@@ -35,11 +45,25 @@ public class Poterie {
 		this.prix = prix;
 		
 	}
+        public Poterie(int id,String image,String nom, int prix, int vote,int idU,boolean choix) {
+            
+         this.idPoterie=id;
+	        this.image=image;
+		this.nom = nom;
+		this.prix = prix;
+                this.vote=vote;
+                this.idUtilisateur=idU;
+	this.choix=choix;	
+	}
 
-    public Poterie(int id, int vote) {
+    public Poterie(int id, int vote,int idU,boolean choix) {
         this.idPoterie=id;
         this.vote=vote;
+        this.idUtilisateur=idU;
+        this.choix=choix;
     }
+
+    
 	public int getIdPoterie() {
 		return idPoterie;
 	}
@@ -69,5 +93,17 @@ public class Poterie {
 	}
 	public void setVote(int vote) {
 		this.vote = vote;
+	}
+        public boolean getChoix() {
+		return choix;
+	}
+	public void setChoix(boolean choix) {
+		this.choix = choix;
+	}
+        public int getIdUtilisateur() {
+		return idUtilisateur;
+	}
+	public void setIdUtilisateur(int idU) {
+		this.idUtilisateur = idU;
 	}
 }

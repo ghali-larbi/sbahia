@@ -18,8 +18,7 @@ public interface PoterieInterfaces {
     boolean updatePoterie(Poterie poterie);
     boolean updateVote(Poterie poterie);
     void insertPoterie(Poterie poterie);
-    void insertUtilisateur(Utilisateur utilisateur);
-    List<Utilisateur> selectUtilisateur();
+  
     List<Poterie> selectPoterie();
     boolean deletePoterie(int id);
     
