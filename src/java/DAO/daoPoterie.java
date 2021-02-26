@@ -25,13 +25,13 @@ import model.Vote;
  */
 public class daoPoterie implements PoterieInterfaces{
          private static final String INSERT_VOTE = "INSERT INTO vote" + "(idPoterie,idUtilisateur) VALUES (?,?)";
-         private static final String INSERT_POTERIE = "INSERT INTO poterie" + "(image,nom,prix,vote,idUtilisateur,choix) VALUES (?,?,?,?,?,?)";
+         private static final String INSERT_POTERIE = "INSERT INTO poterie" + "(image,nom,prix,vote,choix) VALUES (?,?,?,?,?)";
          private static final String SELECT_POTERIE = "select * from poterie  ";
-          private static final String SELECT_VOTE2 = "select v.* from poterie p,vote v where p.idPoterie=v.idPoterie ";
+          private static final String SELECT_VOTE2 = "select * from vote";
          private static final String DELETE_POTERIE = "delete from poterie where idPoterie = ?;";
          private static final String UPDATE_POTERIE = "update poterie set image = ?,nom=?,prix=? where idPoterie = ?;";
          private static final String SELECT_POTERIE_BY_ID = "select * from poterie where idPoterie =?";
-         private static final String UPDATE_VOTE = "update poterie set vote= ?,idutilisateur=?,choix=? where idPoterie = ?;";
+         private static final String UPDATE_VOTE = "update poterie set vote= ?,choix=? where idPoterie = ?;";
          private static final String UPDATE_UTILISATEUR = "update vote set idutilisateur=? where idPoterie = ?;";
           private static final String SELECT_VOTE= "select * from poterie   ;";
 
@@ -93,9 +93,8 @@ public class daoPoterie implements PoterieInterfaces{
 		try (Connection connection = conx.getConnection();
 				PreparedStatement statement = connection.prepareStatement(UPDATE_VOTE)) {                                
 			        statement.setInt(1,poterie.getVote());
-                                statement.setInt(2,poterie.getIdUtilisateur());
-                                statement.setBoolean(3, poterie.getChoix());
-                                statement.setInt(4, poterie.getIdPoterie());
+                                statement.setBoolean(2, poterie.getChoix());
+                                statement.setInt(3, poterie.getIdPoterie());
 			        rowUpdated = statement.executeUpdate() > 0;
 		} catch (SQLException ex) {
                 Logger.getLogger(daoPoterie.class.getName()).log(Level.SEVERE, null, ex);
@@ -113,8 +112,8 @@ public class daoPoterie implements PoterieInterfaces{
 			preparedStatement.setString(2, poterie.getNom());
                         preparedStatement.setInt(3, poterie.getPrix());
                         preparedStatement.setInt(4,poterie.getVote());
-                        preparedStatement.setInt(5,poterie.getIdUtilisateur());
-                        preparedStatement.setBoolean(6,poterie.getChoix());
+
+                        preparedStatement.setBoolean(5,poterie.getChoix());
 			System.out.println(preparedStatement);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -182,11 +181,11 @@ public class daoPoterie implements PoterieInterfaces{
 				String nom = rs.getString("nom");
                                 int prix=rs.getInt("prix");
                                 int vote=rs.getInt("vote");
-                                int iduser=rs.getInt("idutilisateur");
+                              
                                 boolean choix=rs.getBoolean("choix");
                                
                              
-				poterie.add(new Poterie(id,image,nom,prix,vote,iduser,choix));
+				poterie.add(new Poterie(id,image,nom,prix,vote,choix));
 			}
 		} catch (SQLException e) {
 			 printSQLException(e);

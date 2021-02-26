@@ -136,7 +136,7 @@ public static final String UPLOAD_DIR = "image";
         int vote=0;
         int idU=Integer.parseInt(request.getParameter("idUser"));
         System.out.println(idU);
-         Poterie newPoterie=new Poterie(img,nom,prix,vote,idU,false);
+         Poterie newPoterie=new Poterie(img,nom,prix,vote,false);
          daopoterie.insertPoterie(newPoterie);
        
          response.sendRedirect("listePoterie");
@@ -191,7 +191,7 @@ public static final String UPLOAD_DIR = "image";
                 int vote =Integer.parseInt(request.getParameter("vote")); 
                  System.out.println(id+" "+idU+" "+vote);
                 vote++;
-               Poterie p=new Poterie(id,vote,idU,true);
+               Poterie p=new Poterie(id,vote,true);
                daopoterie.updateVote(p);
                 Vote v =new Vote(id, 1);
                 daopoterie.insertVote(v);
